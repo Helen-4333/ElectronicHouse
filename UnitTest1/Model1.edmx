@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище el_houseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Жилец">
+          <Key>
+            <PropertyRef Name="ID жильца" />
+          </Key>
+          <Property Name="ID жильца" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID пользователя" Type="int" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Подъезд" Type="int" Nullable="false" />
+          <Property Name="Этаж" Type="int" Nullable="false" />
+          <Property Name="Квартира" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Заявки">
+          <Key>
+            <PropertyRef Name="ID заявки" />
+          </Key>
+          <Property Name="ID заявки" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID жильца" Type="int" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Объект" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Тематика" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Объявления">
+          <Key>
+            <PropertyRef Name="ID объявления" />
+          </Key>
+          <Property Name="ID объявления" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID организации" Type="int" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Дата" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Опросы">
+          <Key>
+            <PropertyRef Name="ID опроса" />
+          </Key>
+          <Property Name="ID опроса" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID организации" Type="int" Nullable="false" />
+          <Property Name="Тема" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пользователь">
+          <Key>
+            <PropertyRef Name="ID пользователя" />
+          </Key>
+          <Property Name="ID пользователя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="50" />
+          <Property Name="Номер_дома" Type="int" />
+          <Property Name="Номер_подъезда" Type="int" />
+          <Property Name="Номер_квартиры" Type="int" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Роль" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Управляющая организация">
+          <Key>
+            <PropertyRef Name="ID организации" />
+          </Key>
+          <Property Name="ID организации" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID пользователя" Type="int" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Телефон" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Жилец_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Жилец" Type="Self.Жилец" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="ID пользователя" />
+            </Principal>
+            <Dependent Role="Жилец">
+              <PropertyRef Name="ID пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заявки_Жилец">
+          <End Role="Жилец" Type="Self.Жилец" Multiplicity="1" />
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Жилец">
+              <PropertyRef Name="ID жильца" />
+            </Principal>
+            <Dependent Role="Заявки">
+              <PropertyRef Name="ID жильца" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Объявления_Управляющая организация">
+          <End Role="Управляющая организация" Type="Self.Управляющая организация" Multiplicity="1" />
+          <End Role="Объявления" Type="Self.Объявления" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Управляющая организация">
+              <PropertyRef Name="ID организации" />
+            </Principal>
+            <Dependent Role="Объявления">
+              <PropertyRef Name="ID организации" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Опросы_Управляющая организация">
+          <End Role="Управляющая организация" Type="Self.Управляющая организация" Multiplicity="1" />
+          <End Role="Опросы" Type="Self.Опросы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Управляющая организация">
+              <PropertyRef Name="ID организации" />
+            </Principal>
+            <Dependent Role="Опросы">
+              <PropertyRef Name="ID организации" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Управляющая организация_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Управляющая организация" Type="Self.Управляющая организация" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="ID пользователя" />
+            </Principal>
+            <Dependent Role="Управляющая организация">
+              <PropertyRef Name="ID пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище el_houseModelContainer">
+          <EntitySet Name="Жилец" EntityType="Self.Жилец" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Заявки" EntityType="Self.Заявки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Объявления" EntityType="Self.Объявления" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Опросы" EntityType="Self.Опросы" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пользователь" EntityType="Self.Пользователь" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Управляющая организация" EntityType="Self.Управляющая организация" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Жилец_Пользователь" Association="Self.FK_Жилец_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Жилец" EntitySet="Жилец" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заявки_Жилец" Association="Self.FK_Заявки_Жилец">
+            <End Role="Жилец" EntitySet="Жилец" />
+            <End Role="Заявки" EntitySet="Заявки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Объявления_Управляющая организация" Association="Self.FK_Объявления_Управляющая организация">
+            <End Role="Управляющая организация" EntitySet="Управляющая организация" />
+            <End Role="Объявления" EntitySet="Объявления" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Опросы_Управляющая организация" Association="Self.FK_Опросы_Управляющая организация">
+            <End Role="Управляющая организация" EntitySet="Управляющая организация" />
+            <End Role="Опросы" EntitySet="Опросы" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Управляющая организация_Пользователь" Association="Self.FK_Управляющая организация_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Управляющая организация" EntitySet="Управляющая организация" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="el_houseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Жилец">
+          <Key>
+            <PropertyRef Name="ID_жильца" />
+          </Key>
+          <Property Name="ID_жильца" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_пользователя" Type="Int32" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Подъезд" Type="Int32" Nullable="false" />
+          <Property Name="Этаж" Type="Int32" Nullable="false" />
+          <Property Name="Квартира" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Пользователь" Relationship="Self.FK_Жилец_Пользователь" FromRole="Жилец" ToRole="Пользователь" />
+          <NavigationProperty Name="Заявки" Relationship="Self.FK_Заявки_Жилец" FromRole="Жилец" ToRole="Заявки" />
+        </EntityType>
+        <EntityType Name="Заявки">
+          <Key>
+            <PropertyRef Name="ID_заявки" />
+          </Key>
+          <Property Name="ID_заявки" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_жильца" Type="Int32" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Объект" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Тематика" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Жилец" Relationship="Self.FK_Заявки_Жилец" FromRole="Заявки" ToRole="Жилец" />
+        </EntityType>
+        <EntityType Name="Объявления">
+          <Key>
+            <PropertyRef Name="ID_объявления" />
+          </Key>
+          <Property Name="ID_объявления" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_организации" Type="Int32" Nullable="false" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Дата" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Управляющая_организация" Relationship="Self.FK_Объявления_Управляющая_организация" FromRole="Объявления" ToRole="Управляющая_организация" />
+        </EntityType>
+        <EntityType Name="Опросы">
+          <Key>
+            <PropertyRef Name="ID_опроса" />
+          </Key>
+          <Property Name="ID_опроса" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_организации" Type="Int32" Nullable="false" />
+          <Property Name="Тема" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Управляющая_организация" Relationship="Self.FK_Опросы_Управляющая_организация" FromRole="Опросы" ToRole="Управляющая_организация" />
+        </EntityType>
+        <EntityType Name="Пользователь">
+          <Key>
+            <PropertyRef Name="ID_пользователя" />
+          </Key>
+          <Property Name="ID_пользователя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Номер_дома" Type="Int32" />
+          <Property Name="Номер_подъезда" Type="Int32" />
+          <Property Name="Номер_квартиры" Type="Int32" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Роль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Жилец" Relationship="Self.FK_Жилец_Пользователь" FromRole="Пользователь" ToRole="Жилец" />
+          <NavigationProperty Name="Управляющая_организация" Relationship="Self.FK_Управляющая_организация_Пользователь" FromRole="Пользователь" ToRole="Управляющая_организация" />
+        </EntityType>
+        <EntityType Name="Управляющая_организация">
+          <Key>
+            <PropertyRef Name="ID_организации" />
+          </Key>
+          <Property Name="ID_организации" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_пользователя" Type="Int32" Nullable="false" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Объявления" Relationship="Self.FK_Объявления_Управляющая_организация" FromRole="Управляющая_организация" ToRole="Объявления" />
+          <NavigationProperty Name="Опросы" Relationship="Self.FK_Опросы_Управляющая_организация" FromRole="Управляющая_организация" ToRole="Опросы" />
+          <NavigationProperty Name="Пользователь" Relationship="Self.FK_Управляющая_организация_Пользователь" FromRole="Управляющая_организация" ToRole="Пользователь" />
+        </EntityType>
+        <Association Name="FK_Жилец_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Жилец" Type="Self.Жилец" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="ID_пользователя" />
+            </Principal>
+            <Dependent Role="Жилец">
+              <PropertyRef Name="ID_пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заявки_Жилец">
+          <End Role="Жилец" Type="Self.Жилец" Multiplicity="1" />
+          <End Role="Заявки" Type="Self.Заявки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Жилец">
+              <PropertyRef Name="ID_жильца" />
+            </Principal>
+            <Dependent Role="Заявки">
+              <PropertyRef Name="ID_жильца" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Объявления_Управляющая_организация">
+          <End Role="Управляющая_организация" Type="Self.Управляющая_организация" Multiplicity="1" />
+          <End Role="Объявления" Type="Self.Объявления" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Управляющая_организация">
+              <PropertyRef Name="ID_организации" />
+            </Principal>
+            <Dependent Role="Объявления">
+              <PropertyRef Name="ID_организации" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Опросы_Управляющая_организация">
+          <End Role="Управляющая_организация" Type="Self.Управляющая_организация" Multiplicity="1" />
+          <End Role="Опросы" Type="Self.Опросы" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Управляющая_организация">
+              <PropertyRef Name="ID_организации" />
+            </Principal>
+            <Dependent Role="Опросы">
+              <PropertyRef Name="ID_организации" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Управляющая_организация_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Управляющая_организация" Type="Self.Управляющая_организация" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="ID_пользователя" />
+            </Principal>
+            <Dependent Role="Управляющая_организация">
+              <PropertyRef Name="ID_пользователя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="el_houseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Жилец" EntityType="Self.Жилец" />
+          <EntitySet Name="Заявки" EntityType="Self.Заявки" />
+          <EntitySet Name="Объявления" EntityType="Self.Объявления" />
+          <EntitySet Name="Опросы" EntityType="Self.Опросы" />
+          <EntitySet Name="Пользователь" EntityType="Self.Пользователь" />
+          <EntitySet Name="Управляющая_организация" EntityType="Self.Управляющая_организация" />
+          <AssociationSet Name="FK_Жилец_Пользователь" Association="Self.FK_Жилец_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Жилец" EntitySet="Жилец" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заявки_Жилец" Association="Self.FK_Заявки_Жилец">
+            <End Role="Жилец" EntitySet="Жилец" />
+            <End Role="Заявки" EntitySet="Заявки" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Объявления_Управляющая_организация" Association="Self.FK_Объявления_Управляющая_организация">
+            <End Role="Управляющая_организация" EntitySet="Управляющая_организация" />
+            <End Role="Объявления" EntitySet="Объявления" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Опросы_Управляющая_организация" Association="Self.FK_Опросы_Управляющая_организация">
+            <End Role="Управляющая_организация" EntitySet="Управляющая_организация" />
+            <End Role="Опросы" EntitySet="Опросы" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Управляющая_организация_Пользователь" Association="Self.FK_Управляющая_организация_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Управляющая_организация" EntitySet="Управляющая_организация" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище el_houseModelContainer" CdmEntityContainer="el_houseEntities">
+          <EntitySetMapping Name="Жилец">
+            <EntityTypeMapping TypeName="el_houseModel.Жилец">
+              <MappingFragment StoreEntitySet="Жилец">
+                <ScalarProperty Name="ID_жильца" ColumnName="ID жильца" />
+                <ScalarProperty Name="ID_пользователя" ColumnName="ID пользователя" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Подъезд" ColumnName="Подъезд" />
+                <ScalarProperty Name="Этаж" ColumnName="Этаж" />
+                <ScalarProperty Name="Квартира" ColumnName="Квартира" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Заявки">
+            <EntityTypeMapping TypeName="el_houseModel.Заявки">
+              <MappingFragment StoreEntitySet="Заявки">
+                <ScalarProperty Name="ID_заявки" ColumnName="ID заявки" />
+                <ScalarProperty Name="ID_жильца" ColumnName="ID жильца" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Объект" ColumnName="Объект" />
+                <ScalarProperty Name="Тематика" ColumnName="Тематика" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Объявления">
+            <EntityTypeMapping TypeName="el_houseModel.Объявления">
+              <MappingFragment StoreEntitySet="Объявления">
+                <ScalarProperty Name="ID_объявления" ColumnName="ID объявления" />
+                <ScalarProperty Name="ID_организации" ColumnName="ID организации" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+                <ScalarProperty Name="Дата" ColumnName="Дата" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Опросы">
+            <EntityTypeMapping TypeName="el_houseModel.Опросы">
+              <MappingFragment StoreEntitySet="Опросы">
+                <ScalarProperty Name="ID_опроса" ColumnName="ID опроса" />
+                <ScalarProperty Name="ID_организации" ColumnName="ID организации" />
+                <ScalarProperty Name="Тема" ColumnName="Тема" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пользователь">
+            <EntityTypeMapping TypeName="el_houseModel.Пользователь">
+              <MappingFragment StoreEntitySet="Пользователь">
+                <ScalarProperty Name="ID_пользователя" ColumnName="ID пользователя" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Номер_дома" ColumnName="Номер_дома" />
+                <ScalarProperty Name="Номер_подъезда" ColumnName="Номер_подъезда" />
+                <ScalarProperty Name="Номер_квартиры" ColumnName="Номер_квартиры" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+                <ScalarProperty Name="Роль" ColumnName="Роль" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Управляющая_организация">
+            <EntityTypeMapping TypeName="el_houseModel.Управляющая_организация">
+              <MappingFragment StoreEntitySet="Управляющая организация">
+                <ScalarProperty Name="ID_организации" ColumnName="ID организации" />
+                <ScalarProperty Name="ID_пользователя" ColumnName="ID пользователя" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

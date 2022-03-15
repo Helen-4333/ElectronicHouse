@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="718a15cc484a4c59a9a732ac4dfaf4ff" Name="Diagram1">
+        <EntityTypeShape EntityType="el_houseModel.Жилец" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="el_houseModel.Заявки" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="el_houseModel.Объявления" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="el_houseModel.Опросы" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="el_houseModel.Пользователь" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="el_houseModel.Управляющая_организация" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="el_houseModel.FK_Жилец_Пользователь" ManuallyRouted="false" />
+        <AssociationConnector Association="el_houseModel.FK_Заявки_Жилец" ManuallyRouted="false" />
+        <AssociationConnector Association="el_houseModel.FK_Объявления_Управляющая_организация" ManuallyRouted="false" />
+        <AssociationConnector Association="el_houseModel.FK_Опросы_Управляющая_организация" ManuallyRouted="false" />
+        <AssociationConnector Association="el_houseModel.FK_Управляющая_организация_Пользователь" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

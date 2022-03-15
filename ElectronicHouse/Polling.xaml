@@ -1,0 +1,43 @@
+﻿<Page x:Class="ElectronicHouse.Polling"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ElectronicHouse"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Polling" Background="MediumPurple">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+            <RowDefinition Height="57"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock FontSize="25" Text="Опросы" VerticalAlignment="Top" FontWeight="Medium" HorizontalAlignment="Center" Height="34" Margin="0,16,0,0" Width="98"></TextBlock>
+        <Button Content="Вернуться на главный экран" Width="250" Grid.Row="2" HorizontalAlignment="Left" Margin="540,4,0,6" Background="LightBlue" Click="Edit_Click" FontSize="14"/>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="219*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <TextBlock Text="Тема" Grid.Row="1" FontSize="24" FontWeight="UltraBold" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,11,0,0" Height="29" Width="64" ></TextBlock>
+        <TextBlock Text="Описание" Grid.Row="1" FontSize="24" FontWeight="Bold" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,67,0,0" Height="29" Width="116"/>
+
+        <ComboBox SelectedItem="{Binding Тема}" ItemsSource="{Binding Опросы}" x:Name="ComboThematics" DisplayMemberPath="Тема" SelectionChanged="ComboThematics_SelectionChanged" Grid.Row="1" Margin="454,8,72,285"/>
+        <TextBox x:Name="Description" Text="{Binding ElementName=ComboThematics, Path=SelectedItem.Описание}" Grid.Row="1" Width="274" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="454,66,0,0"/>
+
+        <Button Content="  ДА" Width="288" HorizontalContentAlignment="Left" HorizontalAlignment="Center"  Margin="0,168,0,123" Background="LightBlue" Click="Yes_Click" FontSize="16" Grid.Row="1" FontWeight="Bold"/>
+        <Button Content="  НЕТ" Width="288" HorizontalContentAlignment="Left" HorizontalAlignment="Center" Margin="0,228,0,63" Background="LightBlue" Click="No_Click" FontSize="16" Grid.Row="1" FontWeight="Bold"/>
+    </Grid>
+</Page>
